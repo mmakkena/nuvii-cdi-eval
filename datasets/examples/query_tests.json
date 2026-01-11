@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "name": "CDI Query Generation Test Suite",
+    "version": "1.0",
+    "description": "Example test cases for CDI query generation evaluation",
+    "task_type": "query"
+  },
+  "test_cases": [
+    {
+      "id": "query-001",
+      "clinical_note": "A 72-year-old male admitted with pneumonia. Chest X-ray shows bilateral infiltrates. Patient is hypoxic requiring 4L O2. Blood cultures pending. Started on ceftriaxone and azithromycin.",
+      "query_context": "Documentation does not specify if pneumonia is community-acquired or healthcare-associated",
+      "expected_query_type": "clarification",
+      "expected_query_topics": ["type_of_pneumonia", "acquisition_setting"],
+      "specialty": "pulmonology",
+      "complexity": "low",
+      "tags": ["pneumonia", "specificity"]
+    },
+    {
+      "id": "query-002",
+      "clinical_note": "A 65-year-old female with altered mental status. Labs show sodium 118 mEq/L. Patient is euvolemic. CT head negative. Urine osmolality elevated.",
+      "query_context": "Etiology of hyponatremia not documented for accurate coding",
+      "expected_query_type": "clarification",
+      "expected_query_topics": ["etiology_hyponatremia", "siadh"],
+      "specialty": "nephrology",
+      "complexity": "moderate",
+      "tags": ["hyponatremia", "electrolyte"]
+    },
+    {
+      "id": "query-003",
+      "clinical_note": "A 58-year-old male with GI bleed. Hemoglobin dropped from 12 to 8. EGD shows gastric ulcer with visible vessel. Patient received 2 units PRBCs.",
+      "query_context": "Acuity and severity of anemia not documented",
+      "expected_query_type": "clarification",
+      "expected_query_topics": ["acute_vs_chronic_anemia", "blood_loss_anemia"],
+      "specialty": "gastroenterology",
+      "complexity": "moderate",
+      "tags": ["anemia", "gi_bleed", "severity"]
+    },
+    {
+      "id": "query-004",
+      "clinical_note": "A 70-year-old male with heart failure exacerbation. BNP 2500, ejection fraction 30%. Patient has 3+ pitting edema and crackles. IV furosemide started.",
+      "query_context": "Type of heart failure (systolic vs diastolic) and acuity need clarification",
+      "expected_query_type": "clarification",
+      "expected_query_topics": ["heart_failure_type", "acute_vs_chronic", "decompensation"],
+      "specialty": "cardiology",
+      "complexity": "moderate",
+      "tags": ["heart_failure", "specificity"]
+    },
+    {
+      "id": "query-005",
+      "clinical_note": "A 80-year-old female with sepsis from UTI. Blood pressure 85/50 despite 2L fluid resuscitation. Lactate 4.2. Started on norepinephrine.",
+      "query_context": "Documentation should clarify if this meets criteria for septic shock",
+      "expected_query_type": "clarification",
+      "expected_query_topics": ["septic_shock", "organ_dysfunction", "vasopressor_requirement"],
+      "specialty": "emergency",
+      "complexity": "high",
+      "tags": ["sepsis", "shock", "critical_care"]
+    }
+  ]
+}

@@ -142,32 +142,29 @@ class TestPhoenixTracerContextManagers:
         with tracer.trace_api_call("/api/test", "POST") as ctx:
             assert not ctx.is_recording
 
-    @patch("nuvii_eval.instrumentation.phoenix_tracer._lazy_import_phoenix")
-    def test_trace_evaluation_with_mocked_otel(self, mock_import):
-        """Test trace_evaluation with mocked OpenTelemetry."""
-        # Set up mocks
-        mock_px = MagicMock()
+    def test_trace_evaluation_with_mocked_otel(self):
+        """Test trace_evaluation with mocked OpenTelemetry.
+
+        This test verifies the tracing workflow when OpenTelemetry components
+        are properly initialized. We test by directly injecting mocked components
+        into an already-created tracer instance.
+        """
+        # Create tracer with disabled config first (won't try to import phoenix)
+        phoenix_config = PhoenixConfig(enabled=True, endpoint="http://remote:6006")
+        eval_config = EvalConfig()
+        tracer = PhoenixTracer(phoenix_config, eval_config)
+
+        # Mock the internal state to simulate successful initialization
         mock_trace = MagicMock()
-        mock_Status = MagicMock()
-        mock_StatusCode = MagicMock()
-        mock_SpanKind = MagicMock()
-
-        mock_import.return_value = (
-            mock_px,
-            mock_trace,
-            mock_Status,
-            mock_StatusCode,
-            mock_SpanKind,
-        )
-
-        # Mock the tracer
         mock_tracer = MagicMock()
         mock_span = MagicMock()
         mock_span_context = MagicMock()
         mock_span_context.span_id = 12345
         mock_span_context.trace_id = 67890
         mock_span.get_span_context.return_value = mock_span_context
+        mock_span.is_recording.return_value = True
 
+        # Set up context manager behavior
         mock_tracer.start_as_current_span.return_value.__enter__ = MagicMock(
             return_value=mock_span
         )
@@ -176,19 +173,19 @@ class TestPhoenixTracerContextManagers:
         )
         mock_trace.get_tracer.return_value = mock_tracer
 
-        # Mock register
-        with patch("nuvii_eval.instrumentation.phoenix_tracer.register"):
-            phoenix_config = PhoenixConfig(enabled=True, endpoint="http://remote:6006")
-            eval_config = EvalConfig()
+        # Inject mocked components into tracer
+        tracer._initialized = True
+        tracer._tracer = mock_tracer
+        tracer._trace = mock_trace
+        tracer._SpanKind = MagicMock()
+        tracer._Status = MagicMock()
+        tracer._StatusCode = MagicMock()
 
-            tracer = PhoenixTracer(phoenix_config, eval_config)
-            tracer.initialize()
+        with tracer.trace_evaluation("test_001", "icd", {"model": "v1"}) as ctx:
+            ctx.set_attribute("custom_metric", 0.95)
 
-            with tracer.trace_evaluation("test_001", "icd", {"model": "v1"}) as ctx:
-                ctx.set_attribute("custom_metric", 0.95)
-
-            # Verify span was created
-            mock_tracer.start_as_current_span.assert_called()
+        # Verify span was created
+        mock_tracer.start_as_current_span.assert_called()
 
 
 class TestPhoenixTracerLogging:

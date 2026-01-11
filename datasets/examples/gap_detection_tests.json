@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "name": "Documentation Gap Detection Test Suite",
+    "version": "1.0",
+    "description": "Example test cases for clinical documentation gap detection",
+    "task_type": "gap"
+  },
+  "test_cases": [
+    {
+      "id": "gap-001",
+      "clinical_note": "A 65-year-old male presents with chest pain on exertion that resolves with rest. EKG shows ST depressions in leads V4-V6 during exercise. Cardiac catheterization scheduled.",
+      "expected_gaps": [
+        "Severity of angina not documented (stable vs unstable)",
+        "Troponin levels not mentioned",
+        "Prior cardiac history not documented"
+      ],
+      "gap_count_range": [2, 4],
+      "has_critical_gap": true,
+      "specialty": "cardiology",
+      "complexity": "moderate",
+      "tags": ["cardiac", "chest_pain", "missing_severity"]
+    },
+    {
+      "id": "gap-002",
+      "clinical_note": "A 58-year-old female with type 2 diabetes. Last HbA1c was 8.5%. Currently on metformin 1000mg twice daily. Patient reports good compliance with medications.",
+      "expected_gaps": [
+        "Date of last HbA1c not specified",
+        "Diabetic complications screening not documented (retinopathy, nephropathy, neuropathy)",
+        "Blood pressure not documented",
+        "Lipid panel results not mentioned"
+      ],
+      "gap_count_range": [3, 5],
+      "has_critical_gap": true,
+      "specialty": "endocrinology",
+      "complexity": "moderate",
+      "tags": ["diabetes", "screening", "chronic_care"]
+    },
+    {
+      "id": "gap-003",
+      "clinical_note": "A 72-year-old male with COPD presents with productive cough and dyspnea. Increased inhaler use over past week. Started on prednisone 40mg daily and azithromycin.",
+      "expected_gaps": [
+        "COPD stage/severity (GOLD classification) not documented",
+        "Oxygen saturation not mentioned",
+        "Smoking status not documented",
+        "Home oxygen use not specified"
+      ],
+      "gap_count_range": [2, 4],
+      "has_critical_gap": false,
+      "specialty": "pulmonology",
+      "complexity": "low",
+      "tags": ["copd", "exacerbation", "missing_staging"]
+    },
+    {
+      "id": "gap-004",
+      "clinical_note": "A 45-year-old female with chronic low back pain for 6 months. Pain radiates to left leg. Takes ibuprofen with partial relief. Requesting stronger pain medication.",
+      "expected_gaps": [
+        "Neurological examination findings not documented",
+        "Pain severity scale not documented",
+        "Imaging results not mentioned (MRI, X-ray)",
+        "Red flag symptoms assessment not documented"
+      ],
+      "gap_count_range": [3, 5],
+      "has_critical_gap": true,
+      "specialty": "orthopedics",
+      "complexity": "moderate",
+      "tags": ["pain", "documentation", "radiculopathy"]
+    },
+    {
+      "id": "gap-005",
+      "clinical_note": "A 68-year-old male with atrial fibrillation. Currently on metoprolol for rate control. Patient reports occasional palpitations but denies syncope or chest pain.",
+      "expected_gaps": [
+        "CHA2DS2-VASc score not calculated",
+        "Anticoagulation status/decision not documented",
+        "Heart rate and rhythm at visit not documented",
+        "Echocardiogram results not mentioned"
+      ],
+      "gap_count_range": [2, 4],
+      "has_critical_gap": true,
+      "specialty": "cardiology",
+      "complexity": "moderate",
+      "tags": ["afib", "stroke_risk", "anticoagulation"]
+    }
+  ]
+}

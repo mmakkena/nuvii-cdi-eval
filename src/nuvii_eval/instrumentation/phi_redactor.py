@@ -256,10 +256,9 @@ class PHIRedactor:
         ),
         RedactionPattern(
             name="name_patient_label",
-            pattern=r"\b(?:Patient|Pt)[:\s]+([A-Z][a-z]+\s+[A-Z][a-z]+)\b",
+            pattern=r"\b(?:Patient|Pt)[:]\s*([A-Z][a-z]+\s+[A-Z][a-z]+)\b",
             replacement="Patient: [NAME]",
             category=PHICategory.NAME,
-            flags=re.IGNORECASE,
             priority=10,
         ),
         RedactionPattern(
@@ -311,13 +310,14 @@ class PHIRedactor:
         # Sort by priority (higher first)
         patterns.sort(key=lambda p: -p.priority)
 
-        # Compile patterns
+        # Compile patterns - store tuple of (compiled_regex, replacement, name, category, priority)
         self._patterns = [
             (
                 re.compile(p.pattern, p.flags),
                 p.replacement,
                 p.name,
                 p.category,
+                p.priority,
             )
             for p in patterns
         ]
@@ -368,7 +368,7 @@ class PHIRedactor:
 
         result = text
 
-        for compiled, replacement, name, category in self._patterns:
+        for compiled, replacement, name, category, _priority in self._patterns:
             result = compiled.sub(replacement, result)
 
         return result
@@ -395,7 +395,7 @@ class PHIRedactor:
         pattern_matches: dict[str, int] = {}
         total_redactions = 0
 
-        for compiled, replacement, name, category in self._patterns:
+        for compiled, replacement, name, category, _priority in self._patterns:
             matches = compiled.findall(result)
             if matches:
                 match_count = len(matches) if isinstance(matches[0], str) else len(matches)
@@ -520,17 +520,18 @@ class PHIRedactor:
             pattern: Pattern to add
         """
         if pattern.category not in self.excluded_categories:
-            # Insert based on priority
+            # Insert based on priority (higher priority first)
             compiled = (
                 re.compile(pattern.pattern, pattern.flags),
                 pattern.replacement,
                 pattern.name,
                 pattern.category,
+                pattern.priority,
             )
 
-            # Find insertion point
-            for i, (_, _, _, _) in enumerate(self._patterns):
-                if pattern.priority > self._patterns[i][0].pattern:
+            # Find insertion point - patterns are sorted by priority (highest first)
+            for i, (_, _, _, _, existing_priority) in enumerate(self._patterns):
+                if pattern.priority > existing_priority:
                     self._patterns.insert(i, compiled)
                     return
 

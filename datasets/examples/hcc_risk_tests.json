@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "name": "HCC Risk Adjustment Test Suite",
+    "version": "1.0",
+    "description": "Example test cases for HCC risk adjustment evaluation",
+    "task_type": "hcc"
+  },
+  "test_cases": [
+    {
+      "id": "hcc-001",
+      "clinical_note": "A 70-year-old male with type 2 diabetes mellitus with chronic kidney disease stage 3 (eGFR 45). Current medications include metformin (held due to CKD) and insulin glargine. HbA1c 7.8%. Also has essential hypertension well-controlled on lisinopril.",
+      "expected_hcc_codes": ["HCC18", "HCC138"],
+      "expected_raf_range": [0.8, 1.2],
+      "icd_codes": ["E11.65", "N18.3", "I10"],
+      "specialty": "endocrinology",
+      "complexity": "moderate",
+      "tags": ["diabetes", "ckd", "raf"]
+    },
+    {
+      "id": "hcc-002",
+      "clinical_note": "A 68-year-old female with history of breast cancer status post mastectomy 2 years ago, currently on tamoxifen. Recent mammogram of remaining breast shows no abnormalities. Also has chronic heart failure with preserved ejection fraction (HFpEF), ejection fraction 55%.",
+      "expected_hcc_codes": ["HCC85", "HCC12"],
+      "expected_raf_range": [0.6, 1.0],
+      "icd_codes": ["Z85.3", "I50.32"],
+      "specialty": "oncology",
+      "complexity": "moderate",
+      "tags": ["cancer_history", "heart_failure"]
+    },
+    {
+      "id": "hcc-003",
+      "clinical_note": "A 75-year-old male with severe COPD (GOLD stage 4), on home oxygen 2L/min continuous. Recent pulmonary function tests show FEV1 28% predicted. Also has peripheral vascular disease with claudication at 1 block.",
+      "expected_hcc_codes": ["HCC111", "HCC108"],
+      "expected_raf_range": [1.0, 1.5],
+      "icd_codes": ["J44.1", "I73.9"],
+      "specialty": "pulmonology",
+      "complexity": "high",
+      "tags": ["copd", "pvd", "severe"]
+    },
+    {
+      "id": "hcc-004",
+      "clinical_note": "A 62-year-old female with major depressive disorder, recurrent, severe, currently in partial remission on sertraline 100mg daily. Also has morbid obesity with BMI 42 and obstructive sleep apnea on CPAP therapy.",
+      "expected_hcc_codes": ["HCC59", "HCC22"],
+      "expected_raf_range": [0.5, 0.9],
+      "icd_codes": ["F33.2", "E66.01", "G47.33"],
+      "specialty": "psychiatry",
+      "complexity": "moderate",
+      "tags": ["depression", "obesity", "sleep_apnea"]
+    },
+    {
+      "id": "hcc-005",
+      "clinical_note": "A 80-year-old male with end-stage renal disease on hemodialysis three times weekly via left arm AV fistula. Also has secondary hyperparathyroidism and renal anemia on epoetin alfa. Diabetes is the underlying cause of ESRD.",
+      "expected_hcc_codes": ["HCC136", "HCC18"],
+      "expected_raf_range": [1.5, 2.5],
+      "icd_codes": ["N18.6", "Z99.2", "E21.1", "D63.1", "E11.22"],
+      "specialty": "nephrology",
+      "complexity": "high",
+      "tags": ["esrd", "dialysis", "diabetes"]
+    }
+  ]
+}

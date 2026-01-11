@@ -41,8 +41,10 @@ class Complexity(str, Enum):
     HIGH = "high"
 
 
-# ICD-10 code pattern: letter followed by 2 digits, optional decimal with 1-4 digits
-ICD10_PATTERN = re.compile(r"^[A-TV-Z]\d{2}(\.\d{1,4})?$")
+# ICD-10 code pattern: letter followed by 2 digits, optional decimal with 1-4 alphanumeric characters
+# Supports: A00, E11.9, T36.0X1, S72.001A, Z99.89
+# Range includes U (COVID codes) and excludes only specific reserved letters
+ICD10_PATTERN = re.compile(r"^[A-Z]\d{2}(\.[A-Z0-9]{1,4})?$")
 
 # HCC code pattern: HCC followed by 1-3 digits
 HCC_PATTERN = re.compile(r"^HCC\d{1,3}$")

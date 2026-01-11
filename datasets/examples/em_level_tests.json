@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "name": "E/M Level Assessment Test Suite",
+    "version": "1.0",
+    "description": "Example test cases for E/M level evaluation based on MDM complexity",
+    "task_type": "em"
+  },
+  "test_cases": [
+    {
+      "id": "em-001",
+      "clinical_note": "SUBJECTIVE: 45-year-old male with sore throat x 3 days. No fever, cough, or difficulty swallowing. No sick contacts.\n\nOBJECTIVE: Temp 98.6F, pharynx mildly erythematous, no exudates. Negative rapid strep test.\n\nASSESSMENT: Viral pharyngitis.\n\nPLAN: Supportive care, salt water gargles, return if symptoms worsen.",
+      "expected_em_level": "99213",
+      "expected_mdm_level": "low",
+      "mdm_components": {
+        "problems": "low",
+        "data": "minimal",
+        "risk": "low"
+      },
+      "specialty": "primary_care",
+      "complexity": "low",
+      "tags": ["outpatient", "acute_problem"]
+    },
+    {
+      "id": "em-002",
+      "clinical_note": "SUBJECTIVE: 62-year-old female with new onset chest pain, worse with exertion. History of hypertension and hyperlipidemia. Father had MI at age 55.\n\nOBJECTIVE: BP 145/92, HR 88. Heart sounds regular. EKG shows nonspecific ST changes.\n\nASSESSMENT: Chest pain, concerning for unstable angina.\n\nPLAN: Troponin x 3, stress test ordered, aspirin started. Discussed symptoms requiring ER visit. Cardiology referral placed.",
+      "expected_em_level": "99215",
+      "expected_mdm_level": "high",
+      "mdm_components": {
+        "problems": "high",
+        "data": "moderate",
+        "risk": "high"
+      },
+      "specialty": "primary_care",
+      "complexity": "high",
+      "tags": ["outpatient", "acute_threat"]
+    },
+    {
+      "id": "em-003",
+      "clinical_note": "SUBJECTIVE: 55-year-old male with type 2 diabetes for annual follow-up. Reports good glucose control at home. No hypoglycemic episodes. Taking metformin 1000mg BID.\n\nOBJECTIVE: Weight 195 lbs (stable). Foot exam: normal sensation, pulses intact. HbA1c 6.8% (reviewed from lab).\n\nASSESSMENT: Type 2 DM, well controlled.\n\nPLAN: Continue current regimen. Recheck HbA1c in 6 months. Ophthalmology referral for annual eye exam.",
+      "expected_em_level": "99214",
+      "expected_mdm_level": "moderate",
+      "mdm_components": {
+        "problems": "moderate",
+        "data": "moderate",
+        "risk": "low"
+      },
+      "specialty": "endocrinology",
+      "complexity": "moderate",
+      "tags": ["outpatient", "chronic_stable"]
+    },
+    {
+      "id": "em-004",
+      "clinical_note": "SUBJECTIVE: 78-year-old male with CHF presents with increased dyspnea and leg swelling over 5 days. Has been compliant with medications but admits to high sodium diet recently. Also notes worsening fatigue.\n\nOBJECTIVE: BP 162/95, HR 92, SpO2 91% RA. JVP elevated to 10cm. 2+ bilateral LE edema. Crackles at lung bases. Weight up 8 lbs from last visit. BNP 1800 (up from 400). CMP shows Cr 1.8 (baseline 1.2).\n\nASSESSMENT: Acute on chronic systolic heart failure exacerbation with fluid overload and acute kidney injury.\n\nPLAN: IV furosemide 80mg now and monitor. Daily weights. Strict I/O. Consider admission if no improvement in 2 hours. Discussed disease severity with patient and family.",
+      "expected_em_level": "99215",
+      "expected_mdm_level": "high",
+      "mdm_components": {
+        "problems": "high",
+        "data": "extensive",
+        "risk": "high"
+      },
+      "specialty": "cardiology",
+      "complexity": "high",
+      "tags": ["outpatient", "acute_exacerbation", "admission_decision"]
+    },
+    {
+      "id": "em-005",
+      "clinical_note": "SUBJECTIVE: 35-year-old female with recurrent migraine headaches. Has had 3 episodes this month despite taking sumatriptan. Reports aura before each episode. No new neurological symptoms.\n\nOBJECTIVE: Neurological exam normal. No papilledema.\n\nASSESSMENT: Chronic migraine with aura, increased frequency.\n\nPLAN: Start topiramate 25mg daily for prophylaxis. Continue sumatriptan PRN. Headache diary recommended. Return in 6 weeks to assess response.",
+      "expected_em_level": "99214",
+      "expected_mdm_level": "moderate",
+      "mdm_components": {
+        "problems": "moderate",
+        "data": "minimal",
+        "risk": "moderate"
+      },
+      "specialty": "neurology",
+      "complexity": "moderate",
+      "tags": ["outpatient", "chronic_worsening"]
+    }
+  ]
+}

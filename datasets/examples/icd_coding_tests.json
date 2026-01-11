@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "name": "ICD-10 Coding Test Suite",
+    "version": "1.0",
+    "description": "Example test cases for ICD-10 code suggestion evaluation",
+    "task_type": "icd"
+  },
+  "test_cases": [
+    {
+      "id": "icd-001",
+      "clinical_note": "A 65-year-old male presents with progressive shortness of breath and fatigue over the past 3 weeks. Physical examination reveals bilateral lower extremity edema, elevated JVP, and bibasilar crackles. Echocardiogram shows ejection fraction of 35%. BNP is elevated at 1200 pg/mL. Assessment: Systolic heart failure with reduced ejection fraction.",
+      "expected_icd_codes": ["I50.22", "R06.02", "R53.83"],
+      "expected_primary_code": "I50.22",
+      "specialty": "cardiology",
+      "complexity": "moderate",
+      "tags": ["heart_failure", "dyspnea"]
+    },
+    {
+      "id": "icd-002",
+      "clinical_note": "A 58-year-old female with poorly controlled type 2 diabetes mellitus. Recent HbA1c of 9.2%. Patient reports intermittent blurry vision and numbness in feet. Fundoscopic exam shows microaneurysms and hard exudates. Monofilament testing reveals decreased sensation bilaterally. Assessment: Type 2 diabetes with diabetic retinopathy and peripheral neuropathy.",
+      "expected_icd_codes": ["E11.65", "E11.319", "E11.42"],
+      "expected_primary_code": "E11.65",
+      "specialty": "endocrinology",
+      "complexity": "high",
+      "tags": ["diabetes", "complications"]
+    },
+    {
+      "id": "icd-003",
+      "clinical_note": "A 72-year-old male with chronic obstructive pulmonary disease presents with increased cough productive of yellow sputum, fever of 101.2F, and worsening dyspnea for 3 days. Chest X-ray shows right lower lobe infiltrate. Oxygen saturation 88% on room air. Assessment: Acute exacerbation of COPD with community-acquired pneumonia.",
+      "expected_icd_codes": ["J44.1", "J18.9", "R06.02"],
+      "expected_primary_code": "J44.1",
+      "specialty": "pulmonology",
+      "complexity": "moderate",
+      "tags": ["copd", "pneumonia", "exacerbation"]
+    },
+    {
+      "id": "icd-004",
+      "clinical_note": "A 45-year-old female presents with severe headache, photophobia, and neck stiffness for 24 hours. Temperature 102.4F. Lumbar puncture shows elevated WBC count with lymphocytic predominance, elevated protein, and normal glucose. CSF viral PCR pending. Assessment: Viral meningitis.",
+      "expected_icd_codes": ["A87.9", "G44.1", "R21"],
+      "expected_primary_code": "A87.9",
+      "specialty": "neurology",
+      "complexity": "moderate",
+      "tags": ["meningitis", "headache"]
+    },
+    {
+      "id": "icd-005",
+      "clinical_note": "A 55-year-old male with history of alcohol use disorder presents with abdominal pain, nausea, and vomiting. Lipase elevated to 1500 U/L. CT abdomen shows pancreatic inflammation with peripancreatic fluid. No gallstones visualized. Assessment: Acute alcoholic pancreatitis.",
+      "expected_icd_codes": ["K85.20", "F10.20", "R10.9"],
+      "expected_primary_code": "K85.20",
+      "specialty": "gastroenterology",
+      "complexity": "moderate",
+      "tags": ["pancreatitis", "alcohol"]
+    }
+  ]
+}
