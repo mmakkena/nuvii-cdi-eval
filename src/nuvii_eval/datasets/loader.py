@@ -404,6 +404,83 @@ class DatasetLoader:
         ]
 
 
+def load_dataset(
+    path: str,
+    schema_type: str | None = None,
+    limit: int | None = None,
+) -> list[BaseTestCase]:
+    """
+    Load test cases from a file (JSON or YAML).
+
+    Args:
+        path: Path to dataset file
+        schema_type: Optional schema type filter
+        limit: Maximum number of cases to load
+
+    Returns:
+        List of test cases
+    """
+    import yaml
+
+    file_path = Path(path)
+
+    if not file_path.exists():
+        raise DatasetLoadError(f"Dataset file not found: {path}", file_path=path)
+
+    # Load file
+    with open(file_path) as f:
+        if file_path.suffix in [".yaml", ".yml"]:
+            data = yaml.safe_load(f)
+        elif file_path.suffix == ".jsonl":
+            # Handle JSONL files
+            loader = DatasetLoader(file_path.parent)
+            inferred_type = schema_type or file_path.stem.split("_")[0]
+            return loader.load_jsonl(file_path, inferred_type, limit=limit)
+        else:
+            data = json.load(f)
+
+    # Extract test cases
+    test_cases_data = data.get("test_cases", data) if isinstance(data, dict) else data
+
+    if not isinstance(test_cases_data, list):
+        raise DatasetLoadError("Dataset must be a list or contain 'test_cases' key")
+
+    # Parse test cases
+    test_cases = []
+    for tc_data in test_cases_data[:limit] if limit else test_cases_data:
+        # Infer type if not specified
+        if schema_type:
+            tc_type = schema_type
+        else:
+            tc_type = _infer_schema_type(tc_data)
+
+        if tc_type and tc_type in TEST_CASE_TYPES:
+            try:
+                tc = TEST_CASE_TYPES[tc_type](**tc_data)
+                test_cases.append(tc)
+            except Exception as e:
+                logger.warning("failed_to_parse_test_case", id=tc_data.get("id"), error=str(e))
+
+    return test_cases
+
+
+def _infer_schema_type(data: dict) -> str | None:
+    """Infer schema type from test case data."""
+    if "expected_icd_codes" in data:
+        return "icd"
+    elif "expected_hccs" in data:
+        return "hcc"
+    elif "expected_gaps" in data:
+        return "gap"
+    elif "quality_criteria" in data:
+        return "query"
+    elif "expected_code" in data and "expected_level" in data:
+        return "em"
+    elif "expected_cpt_codes" in data:
+        return "cpt"
+    return None
+
+
 def create_sample_datasets(output_dir: Path | str = "./datasets/samples") -> None:
     """
     Create sample dataset files for testing.
